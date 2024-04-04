@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-#from utils import plot_lines
+from utils import plot_lines
+
+x = np.arange(0, 5, 0.1);
+y = np.sin(x)
+plt.plot(x, y)
 
 A = np.array([
         [-1, 3],
@@ -26,7 +30,7 @@ print(A_system)
 
 print(A_system[1])
 
-#plot_lines(A_system)
+plot_lines(A_system)
 
 A_2 = np.array([
         [-1, 3],
@@ -43,3 +47,14 @@ try:
     x_2 = np.linalg.solve(A_2, b_2)
 except np.linalg.LinAlgError as err:
     print(err)
+
+A_2_system = np.hstack((A_2, b_2.reshape((2, 1))))
+print(A_2_system)
+
+plot_lines(A_2_system)
+
+b_3 = np.array([7, -21], dtype=np.dtype(float))
+A_3_system = np.hstack((A_2, b_3.reshape((2, 1))))
+print(A_3_system)
+
+plot_lines(A_3_system)
