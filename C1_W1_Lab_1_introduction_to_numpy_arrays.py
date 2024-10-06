@@ -30,7 +30,6 @@
 #     - [4.1 - Indexing](#4-1)
 #     - [4.2 - Slicing](#4-2)
 # - [5 - Stacking](#5)
-# - [6 - Exercises](#6)
 
 # <a name='0'></a>
 # ## About Jupyter Notebooks ##
@@ -38,14 +37,14 @@
 # 
 # Jupyter Notebooks are interactive coding journals that integrate live code, explanatory text, equations, visualizations and other multimedia resources, all in a single document. As a first exercise, run the test snippet below and the print statement cell for "Hello World".
 
-# In[ ]:
+# In[1]:
 
 
 # Run the "Hello World" in the cell below to print "Hello World". 
 test = "Hello World"
 
 
-# In[ ]:
+# In[2]:
 
 
 print(test)
@@ -61,7 +60,7 @@ print(test)
 
 # Before you get started, you have to import NumPy to load its functions. As you may notice, even though there is no expected output, when you run this cell, the Jupyter Notebook imports the package (often referred to as the library) and its functions. Try it for yourself and run the following cell.
 
-# In[ ]:
+# In[3]:
 
 
 import numpy as np
@@ -76,7 +75,7 @@ import numpy as np
 # 
 # The array object in NumPy is called `ndarray` meaning 'n-dimensional array'. To begin with, you will use one of the most common array types: the one-dimensional array ('1-D'). A 1-D array represents a standard list of values entirely in one dimension. Remember that in NumPy, all of the elements within the array are of the same type.
 
-# In[ ]:
+# In[4]:
 
 
 one_dimensional_arr = np.array([10, 12])
@@ -88,7 +87,7 @@ print(one_dimensional_arr)
 
 # There are several ways to create an array in NumPy. You can create a 1-D array by simply using the function `array()` which takes in a list of values as an argument and returns a 1-D array.
 
-# In[ ]:
+# In[5]:
 
 
 # Create and print a NumPy array 'a' containing the elements 1, 2, 3.
@@ -98,7 +97,7 @@ print(a)
 
 # Another way to implement an array is using `np.arange()`. This function will return an array of evenly spaced values within a given interval. To learn more about the arguments that this function takes, there is a powerful feature in Jupyter Notebook that allows you to access the documentation of any function by simply pressing `shift+tab` on your keyboard when clicking on the function. Give it a try for the built-in documentation of `np.arange()`. 
 
-# In[ ]:
+# In[6]:
 
 
 # Create an array with 3 integers, starting from the default integer 0.
@@ -106,7 +105,7 @@ b = np.arange(3)
 print(b)
 
 
-# In[ ]:
+# In[7]:
 
 
 # Create an array that starts from the integer 1, ends at 20, incremented by 3.
@@ -116,7 +115,7 @@ print(c)
 
 # What if you wanted to create an array with five evenly spaced values in the interval from 0 to 100? As you may notice, you have 3 parameters that a function must take. One paremeter is the starting number, in  this case 0, the final number 100 and the number of elements in the array, in this case, 5. NumPy has a function that allows you to do specifically this by using `np.linspace()`.
 
-# In[ ]:
+# In[8]:
 
 
 lin_spaced_arr = np.linspace(0, 100, 5)
@@ -127,28 +126,28 @@ print(lin_spaced_arr)
 # 
 # To change the type to integers, you need to set the dtype to `int`. You can do so, even in the previous functions. Feel free to try it out and modify the cells to output your desired data type. 
 
-# In[ ]:
+# In[9]:
 
 
 lin_spaced_arr_int = np.linspace(0, 100, 5, dtype=int)
 print(lin_spaced_arr_int)
 
 
-# In[ ]:
+# In[10]:
 
 
 c_int = np.arange(1, 20, 3, dtype=int)
 print(c_int)
 
 
-# In[ ]:
+# In[11]:
 
 
 b_float = np.arange(3, dtype=float)
 print(b_float)
 
 
-# In[ ]:
+# In[12]:
 
 
 char_arr = np.array(['Welcome to Math for ML!'])
@@ -168,7 +167,7 @@ print(char_arr.dtype) # Prints the data type of the array
 # - `np.empty()` - Returns a new uninitialized array. 
 # - `np.random.rand()` - Returns a new array with values chosen at random.
 
-# In[ ]:
+# In[13]:
 
 
 # Return a new array of shape 3, filled with ones. 
@@ -176,7 +175,7 @@ ones_arr = np.ones(3)
 print(ones_arr)
 
 
-# In[ ]:
+# In[14]:
 
 
 # Return a new array of shape 3, filled with zeroes.
@@ -184,7 +183,7 @@ zeros_arr = np.zeros(3)
 print(zeros_arr)
 
 
-# In[ ]:
+# In[15]:
 
 
 # Return a new array of shape 3, without initializing entries.
@@ -192,7 +191,7 @@ empt_arr = np.empty(3)
 print(empt_arr)
 
 
-# In[ ]:
+# In[16]:
 
 
 # Return a new array of shape 3 with random numbers between 0 and 1.
@@ -206,7 +205,7 @@ print(rand_arr)
 
 # ![0_Vh-pKXTJsdL-9FT0.png](attachment:0_Vh-pKXTJsdL-9FT0.png)
 
-# In[ ]:
+# In[17]:
 
 
 # Create a 2 dimensional array (2-D)
@@ -216,7 +215,7 @@ print(two_dim_arr)
 
 # An alternative way to create a multidimensional array is by reshaping the initial 1-D array. Using `np.reshape()` you can rearrange elements of the previous array into a new shape. 
 
-# In[ ]:
+# In[18]:
 
 
 # 1-D array 
@@ -240,14 +239,14 @@ print(multi_dim_arr)
 # - `ndarray.size` - Stores the number of elements in the array.
 # 
 
-# In[ ]:
+# In[19]:
 
 
 # Dimension of the 2-D array multi_dim_arr
 multi_dim_arr.ndim
 
 
-# In[ ]:
+# In[20]:
 
 
 # Shape of the 2-D array multi_dim_arr
@@ -255,7 +254,7 @@ multi_dim_arr.ndim
 multi_dim_arr.shape
 
 
-# In[ ]:
+# In[21]:
 
 
 # Size of the array multi_dim_arr
@@ -267,7 +266,7 @@ multi_dim_arr.size
 # # 3 - Array math operations #
 # In this section, you will see that NumPy allows you to quickly perform elementwise addition, substraction, multiplication and division for both 1-D and multidimensional arrays. The operations are performed using the math symbol for each '+', '-' and '*'. Recall that addition of Python lists works completely differently as it would append the lists, thus making a longer list. Meanwhile, trying to subtract or multipy Python lists simply would cause an error. 
 
-# In[ ]:
+# In[22]:
 
 
 arr_1 = np.array([2, 4, 6])
@@ -308,7 +307,7 @@ vector * 1.6
 # ## 4.1 - Indexing ##
 # Let us select specific elements from the arrays as given. 
 
-# In[ ]:
+# In[23]:
 
 
 # Select the third element of the array. Remember the counting starts from 0.
@@ -321,7 +320,7 @@ print(a[0])
 
 # For multidimensional arrays of shape `n`, to index a specific element, you must input `n` indices, one for each dimension. There are two common ways to do this, either by using two sets of brackets, or by using a single bracket and separating each index by a comma. Both methods are shown here.
 
-# In[ ]:
+# In[24]:
 
 
 # Indexing on a 2-D array
@@ -349,7 +348,7 @@ print(two_dim[2,1])
 # 
 # Note you can use slice notation with multi-dimensional indexing, as in `a[0:2, :5]`. This is the extent of indexing you'll need for this course but feel free to check out [the official NumPy documentation](https://numpy.org/doc/stable/user/basics.indexing.html) for extensive documentation on more advanced NumPy array indexing techniques.
 
-# In[ ]:
+# In[25]:
 
 
 # Slice the array a to get the array [2,3,4]
@@ -357,7 +356,7 @@ sliced_arr = a[1:4]
 print(sliced_arr)
 
 
-# In[ ]:
+# In[26]:
 
 
 # Slice the array a to get the array [1,2,3]
@@ -365,7 +364,7 @@ sliced_arr = a[:3]
 print(sliced_arr)
 
 
-# In[ ]:
+# In[27]:
 
 
 # Slice the array a to get the array [3,4,5]
@@ -373,7 +372,7 @@ sliced_arr = a[2:]
 print(sliced_arr)
 
 
-# In[ ]:
+# In[28]:
 
 
 # Slice the array a to get the array [1,3,5]
@@ -381,16 +380,15 @@ sliced_arr = a[::2]
 print(sliced_arr)
 
 
-# In[ ]:
+# In[29]:
 
 
 # Note that a == a[:] == a[::]
-print(a == a[:] == a[::])
+print(f'a == a[:]: {a == a[:]}')
+print(f'a[:] == a[::]: {a[:] == a[::]}')
 
 
-
-
-# In[ ]:
+# In[30]:
 
 
 # Slice the two_dim array to get the first two rows
@@ -398,7 +396,7 @@ sliced_arr_1 = two_dim[0:2]
 sliced_arr_1
 
 
-# In[ ]:
+# In[31]:
 
 
 # Similarily, slice the two_dim array to get the last two rows
@@ -406,7 +404,7 @@ sliced_two_dim_rows = two_dim[1:3]
 print(sliced_two_dim_rows)
 
 
-# In[ ]:
+# In[32]:
 
 
 # This example uses slice notation to get every row, and then pulls the second column.
@@ -423,7 +421,7 @@ print(sliced_two_dim_cols)
 # - `np.hstack()` - stacks horizontally
 # - `np.hsplit()` - splits an array into several smaller arrays
 
-# In[ ]:
+# In[33]:
 
 
 a1 = np.array([[1,1], 
@@ -434,7 +432,7 @@ print(f'a1:\n{a1}')
 print(f'a2:\n{a2}')
 
 
-# In[ ]:
+# In[34]:
 
 
 # Stack the arrays vertically
@@ -442,7 +440,7 @@ vert_stack = np.vstack((a1, a2))
 print(vert_stack)
 
 
-# In[ ]:
+# In[35]:
 
 
 # Stack the arrays horizontally
@@ -450,7 +448,7 @@ horz_stack = np.hstack((a1, a2))
 print(horz_stack)
 
 
-# In[ ]:
+# In[36]:
 
 
 # Split the horizontally stacked array into 2 separate arrays of equal size
@@ -466,18 +464,18 @@ horz_split_first = np.hsplit(horz_stack,[1])
 print(horz_split_first)
 
 
-# In[ ]:
+# In[37]:
 
 
 # Split the vertically stacked array into 2 separate arrays of equal size
 vert_split_two = np.vsplit(vert_stack,2)
 print(vert_split_two)
 
-# Split the horizontally stacked array into 4 separate arrays of equal size
+# Split the vertically stacked array into 4 separate arrays of equal size
 vert_split_four = np.vsplit(vert_stack,4)
 print(vert_split_four)
 
-# Split the horizontally stacked array after the first and third row
+# Split the vertically stacked array after the first and third row
 vert_split_first_third = np.vsplit(vert_stack,[1,3])
 print(vert_split_first_third)
 

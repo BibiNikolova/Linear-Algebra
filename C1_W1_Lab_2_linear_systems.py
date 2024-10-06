@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from utils import plot_lines
 
-x = np.arange(0, 5, 0.1);
+x = np.arange(0, 5, 0.1)
 y = np.sin(x)
 plt.plot(x, y)
 
