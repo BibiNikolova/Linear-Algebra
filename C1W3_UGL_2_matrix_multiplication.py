@@ -15,7 +15,7 @@
 # 
 # Load the `NumPy` package to access its functions.
 
-# In[ ]:
+# In[1]:
 
 
 import numpy as np
@@ -34,7 +34,7 @@ import numpy as np
 # 
 # Like with the dot product, there are a few ways to perform matrix multiplication in Python. As discussed in the previous lab, the calculations are more efficient in the vectorized form. Let's discuss the most commonly used functions in the vectorized form. First, define two matrices:
 
-# In[ ]:
+# In[2]:
 
 
 A = np.array([[4, 9, 9], [9, 1, 6], [9, 2, 3]])
@@ -46,7 +46,7 @@ print("Matrix B (3 by 2):\n", B)
 
 # You can multiply matrices $A$ and $B$ using `NumPy` package function `np.matmul()`:
 
-# In[ ]:
+# In[3]:
 
 
 np.matmul(A, B)
@@ -54,7 +54,7 @@ np.matmul(A, B)
 
 # Which will output $3 \times 2$ matrix as a `np.array`. Python operator `@` will also work here giving the same result:
 
-# In[ ]:
+# In[4]:
 
 
 A @ B
@@ -67,7 +67,7 @@ A @ B
 # 
 # Thus, in the example above ([2](#2)), changing the order of matrices when performing the multiplication $BA$ will not work as the above rule does not hold anymore. You can check it by running the cells below - both of them will give errors.
 
-# In[ ]:
+# In[5]:
 
 
 try:
@@ -76,7 +76,7 @@ except ValueError as err:
     print(err)
 
 
-# In[ ]:
+# In[6]:
 
 
 try:
@@ -89,7 +89,7 @@ except ValueError as err:
 # 
 # However, for multiplying of the vectors, `NumPy` has a shortcut. You can define two vectors $x$ and $y$ of the same size (which one can understand as two $3 \times 1$ matrices). If you check the shape of the vector $x$, you can see that :
 
-# In[ ]:
+# In[7]:
 
 
 x = np.array([1, -2, -5])
@@ -103,7 +103,7 @@ print("Number of dimensions of vector x, reshaped to a matrix:", x.reshape((3, 1
 
 # Following the matrix convention, multiplication of matrices $3 \times 1$ and $3 \times 1$ is not defined. For matrix multiplication you would expect an error in the following cell, but let's check the output:
 
-# In[ ]:
+# In[8]:
 
 
 np.matmul(x,y)
@@ -111,7 +111,7 @@ np.matmul(x,y)
 
 # You can see that there is no error and that the result is actually a dot product $x \cdot y\,$! So, vector $x$ was automatically transposed into the vector $1 \times 3$ and matrix multiplication $x^Ty$ was calculated. While this is very convenient, you need to keep in mind such functionality in Python and pay attention to not use it in a wrong way. The following cell will return an error:
 
-# In[ ]:
+# In[9]:
 
 
 try:
@@ -122,7 +122,7 @@ except ValueError as err:
 
 # You might have a question in you mind: does `np.dot()` function also work for matrix multiplication? Let's try it:
 
-# In[ ]:
+# In[10]:
 
 
 np.dot(A, B)
@@ -130,7 +130,7 @@ np.dot(A, B)
 
 # Yes, it works! What actually happens is what is called **broadcasting** in Python: `NumPy` broadcasts this dot product operation to all rows and all columns, you get the resultant product matrix. Broadcasting also works in other cases, for example:
 
-# In[ ]:
+# In[11]:
 
 
 A - 2
@@ -139,6 +139,12 @@ A - 2
 # Mathematically, subtraction of the $3 \times 3$ matrix $A$ and a scalar is not defined, but Python broadcasts the scalar, creating a $3 \times 3$ `np.array` and performing subtraction element by element. A practical example of matrix multiplication can be seen in a linear regression model. You will implement it in this week's assignment!
 
 # Congratulations on finishing this lab!
+
+# In[12]:
+
+
+print("Thanks")
+
 
 # In[ ]:
 

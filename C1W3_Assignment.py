@@ -34,7 +34,7 @@
 # 
 # This assignment explores the foundational concepts of linear transformations and neural networks in two distinct parts. In the first section, we delve into linear transformations by creating functions to generate matrices for stretching, shearing, and rotation operations. The second part shifts the focus to neural networks, specifically implementing forward propagation in a simple architecture with two inputs and one perceptron. By dissecting these fundamental components, this assignment aims to provide a clear understanding of the role of linear algebra in both vector transformations and neural network computations.
 
-# In[ ]:
+# In[1]:
 
 
 import numpy as np
@@ -43,7 +43,7 @@ import pandas as pd
 import utils
 
 
-# In[ ]:
+# In[2]:
 
 
 import w3_unittest
@@ -72,7 +72,7 @@ import w3_unittest
 #           \tag{1}
 #           $$
 
-# In[ ]:
+# In[3]:
 
 
 def T(v):
@@ -139,7 +139,7 @@ print("Original vector:\n", v, "\n\n Result of the transformation:\n", w)
 
 # You can change the values of $k$ or vectors $u$ and $v$ in the cell below, to check that this is true for some specific values.
 
-# In[ ]:
+# In[4]:
 
 
 u = np.array([[1], [-2]])
@@ -213,7 +213,7 @@ print("T(u+v):\n", T(u+v), "\n\n T(u)+T(v):\n", T(u)+T(v))
 #           
 # Can you see now what should be the values of the elements $a_{i,j}$ of matrix $A$ to make the equalities $(5)$ correct? Find out the answer in the following code cell:
 
-# In[ ]:
+# In[5]:
 
 
 def L(v):
@@ -248,7 +248,7 @@ print("Original vector:\n", v, "\n\n Result of the transformation:\n", w)
 
 # You will work with an image where you will see every transformation working in practice. Since an image is just a set of points in the plane, you can work with it as a set of vectors and you can stretch them, rotate them and much more! 
 
-# In[ ]:
+# In[6]:
 
 
 img = np.loadtxt('data/image.txt')
@@ -258,7 +258,7 @@ print(img)
 
 # The image is just a $2 \times 329076$ matrix where each column is a vector in the plane. So you can get all $x$ coordinates by calling `img[0]` and all $y$ coordinates by calling `img[1]`. Now let's plot the image!
 
-# In[ ]:
+# In[7]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black')
@@ -269,7 +269,7 @@ plt.scatter(img[0], img[1], s = 0.001, color = 'black')
 # 
 # Horizontal scaling (factor $2$ in this example) can be defined considering transformation of a vector $e_1=\begin{bmatrix}1 \\ 0\end{bmatrix}$ into a vector $\begin{bmatrix}2 \\ 0\end{bmatrix}$ and leaving vector $e_2=\begin{bmatrix}0 \\ 1\end{bmatrix}$ without any changes. The following function `T_hscaling()` corresponds to the horizontal scaling (factor $2$) of a vector. The second function `transform_vectors()` applies defined transformation to a set of vectors (here two vectors).
 
-# In[ ]:
+# In[8]:
 
 
 def T_hscaling(v):
@@ -296,7 +296,7 @@ print("Original vectors:\n e1= \n", e1, "\n e2=\n", e2,
 
 # You can get a visual understanding of the transformation, producing a plot which displays input vectors, and their transformations. We have written this function for you so, so do not need to worry! Just run the next cell.
 
-# In[ ]:
+# In[9]:
 
 
 utils.plot_transformation(T_hscaling,e1,e2)
@@ -304,7 +304,7 @@ utils.plot_transformation(T_hscaling,e1,e2)
 
 # Let's visualize how it acts in our leaf image.
 
-# In[ ]:
+# In[10]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black') 
@@ -318,7 +318,7 @@ plt.scatter(T_hscaling(img)[0], T_hscaling(img)[1], s = 0.001, color = 'grey')
 # 
 # Function `T_reflection_yaxis()` defined below corresponds to the reflection about y-axis:
 
-# In[ ]:
+# In[11]:
 
 
 def T_reflection_yaxis(v):
@@ -338,13 +338,13 @@ print("Original vectors:\n e1= \n", e1,"\n e2=\n", e2,
 
 # You can visualize this transformation:
 
-# In[ ]:
+# In[12]:
 
 
 utils.plot_transformation(T_reflection_yaxis, e1, e2)
 
 
-# In[ ]:
+# In[13]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black') 
@@ -369,7 +369,7 @@ plt.scatter(T_reflection_yaxis(img)[0], T_reflection_yaxis(img)[1], s = 0.001, c
 # **Hint**: To find the matrix, you may proceed as you just saw above: try checking the result in the *special* vectors $e_1 = (1,0)$ and $e_2 = (0,1)$!
 # 
 
-# In[ ]:
+# In[15]:
 
 
 # GRADED FUNCTION: T_stretch
@@ -388,29 +388,29 @@ def T_stretch(a, v):
 
     ### START CODE HERE ###
     # Define the transformation matrix
-    T = np.array([[None,None], [None,None]])
+    T = np.array([[a, 0], [0, a]])
     
     # Compute the transformation
-    w = None @ None
+    w = T @ v
     ### END CODE HERE ###
 
     return w
 
 
-# In[ ]:
+# In[16]:
 
 
 w3_unittest.test_T_stretch(T_stretch)
 
 
-# In[ ]:
+# In[17]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black') 
 plt.scatter(T_stretch(2,img)[0], T_stretch(2,img)[1], s = 0.001, color = 'grey')
 
 
-# In[ ]:
+# In[18]:
 
 
 utils.plot_transformation(lambda v: T_stretch(2, v), e1,e2)
@@ -430,7 +430,7 @@ utils.plot_transformation(lambda v: T_stretch(2, v), e1,e2)
 # 
 # **Hint**: To find the associated matrix you may want to understand what happens with the vectors $e_1 = (1,0)$ and $e_2 = (0,1)$.
 
-# In[ ]:
+# In[19]:
 
 
 # GRADED FUNCTION: T_hshear
@@ -449,30 +449,30 @@ def T_hshear(m, v):
 
     ### START CODE HERE ###
     # Define the transformation matrix
-    T = np.array([[None,None], [None,None]])
+    T = np.array([[1, m], [0, 1]])
     
     # Compute the transformation
-    w = None @ None
+    w = T @ v
     
     ### END CODE HERE ###
     
     return w
 
 
-# In[ ]:
+# In[20]:
 
 
 w3_unittest.test_T_hshear(T_hshear)
 
 
-# In[ ]:
+# In[21]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black') 
 plt.scatter(T_hshear(2,img)[0], T_hshear(2,img)[1], s = 0.001, color = 'grey')
 
 
-# In[ ]:
+# In[22]:
 
 
 utils.plot_transformation(lambda v: T_hshear(2, v), e1,e2)
@@ -491,7 +491,7 @@ utils.plot_transformation(lambda v: T_hshear(2, v), e1,e2)
 # 
 # You will implement the function `T_rotation` that inputs an angle in radians, $\theta$, a vector $v$, and performs a rotation by $\theta$ counterclockwise.
 
-# In[ ]:
+# In[23]:
 
 
 # GRADED FUNCTION: T_rotation
@@ -509,30 +509,30 @@ def T_rotation(theta, v):
     
     ### START CODE HERE ###
     # Define the transformation matrix
-    T = np.array([[None,None], [None,None]])
+    T = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta),np.cos(theta)]])
     
     # Compute the transformation
-    w = None @ None
+    w = T @ v
     
     ### END CODE HERE ###
     
     return w
 
 
-# In[ ]:
+# In[24]:
 
 
 w3_unittest.test_T_rotation(T_rotation)
 
 
-# In[ ]:
+# In[25]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black') 
 plt.scatter(T_rotation(np.pi,img)[0], T_rotation(np.pi,img)[1], s = 0.001, color = 'grey')
 
 
-# In[ ]:
+# In[26]:
 
 
 utils.plot_transformation(lambda v: T_rotation(np.pi, v), e1,e2)
@@ -545,9 +545,9 @@ utils.plot_transformation(lambda v: T_rotation(np.pi, v), e1,e2)
 # 
 # $$T_{\text{rotation and stretch}} (v) = \left(T_{\text{rotation}} \circ T_{\text{stretch}}\right) (v) = T_{\text{rotation}} \left(T_{\text{stretch}} \left(v \right) \right).$$
 # 
-# So to perform both transformation, you must multiply the corresponding matrices!
+# So to perform both transformations, you must multiply the corresponding matrices!
 
-# In[ ]:
+# In[27]:
 
 
 def T_rotation_and_stretch(theta, a, v):
@@ -564,30 +564,30 @@ def T_rotation_and_stretch(theta, a, v):
     """
     ### START CODE HERE ###
 
-    rotation_T = np.array([[None,None], [None,None]])
-    stretch_T = np.array([[None,None], [None,None]])
+    rotation_T = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta),np.cos(theta)]])
+    stretch_T = np.array([[a, 0], [0, a]])
 
-    w = None @ (None @ None)
+    w = rotation_T @ (stretch_T @ v)
 
     ### END CODE HERE ###
 
     return w
 
 
-# In[ ]:
+# In[28]:
 
 
 w3_unittest.test_T_rotation_and_stretch(T_rotation_and_stretch)
 
 
-# In[ ]:
+# In[29]:
 
 
 plt.scatter(img[0], img[1], s = 0.001, color = 'black') 
 plt.scatter(T_rotation_and_stretch(np.pi,2,img)[0], T_rotation_and_stretch(np.pi,2,img)[1], s = 0.001, color = 'grey')
 
 
-# In[ ]:
+# In[30]:
 
 
 utils.plot_transformation(lambda v: T_rotation_and_stretch(np.pi, 2, v), e1,e2)
@@ -682,7 +682,7 @@ utils.plot_transformation(lambda v: T_rotation_and_stretch(np.pi, 2, v), e1,e2)
 # 
 # The neural network you will be working with has $3$ parameters. Two weights and one bias, you will start initalizing these parameters as some random numbers, so the algorithm can start at some point. The parameters will be stored in a dictionary.
 
-# In[ ]:
+# In[31]:
 
 
 parameters = utils.initialize_parameters(2)
@@ -707,7 +707,7 @@ print(parameters)
 #     1. Retrieve each parameter from the dictionary "parameters" by using `parameters[".."]`.
 #     2. Implement Forward Propagation. Compute `Z` multiplying arrays `W`, `X` and adding vector `b`. Set the prediction array $A$ equal to $Z$.  
 
-# In[ ]:
+# In[32]:
 
 
 # GRADED FUNCTION: forward_propagation
@@ -727,15 +727,15 @@ def forward_propagation(X, parameters):
     
     # Implement Forward Propagation to calculate Z.
     ### START CODE HERE ### (~ 2 lines of code)
-    Z = None
-    Y_hat = None
+    Z = np.dot(W, X) + b
+    Y_hat = Z
     ### END CODE HERE ###
     
 
     return Y_hat
 
 
-# In[ ]:
+# In[33]:
 
 
 w3_unittest.test_forward_propagation(forward_propagation)
@@ -750,7 +750,7 @@ w3_unittest.test_forward_propagation(forward_propagation)
 # 
 # The next implementation is not graded.
 
-# In[ ]:
+# In[34]:
 
 
 def compute_cost(Y_hat, Y):
@@ -779,7 +779,7 @@ def compute_cost(Y_hat, Y):
 # 
 # Now you're ready to implement your neural network. The next function will implement the training process and it will return the updated parameters dictionary where you will be able to make predictions.
 
-# In[ ]:
+# In[35]:
 
 
 # GRADED FUNCTION: nn_model
@@ -805,11 +805,11 @@ def nn_model(X, Y, num_iterations=1000, print_cost=False):
     for i in range(0, num_iterations):
          
         ### START CODE HERE ### (~ 2 lines of code)
-        # Forward propagation. Inputs: "X, parameters, n_y". Outputs: "Y_hat".
-        Y_hat = None
+        # Forward propagation. Inputs: "X, parameters". Outputs: "Y_hat".
+        Y_hat = forward_propagation(X, parameters)
         
         # Cost function. Inputs: "Y_hat, Y". Outputs: "cost".
-        cost = None
+        cost = utils.compute_cost(Y_hat, Y)
         ### END CODE HERE ###
         
         
@@ -824,7 +824,7 @@ def nn_model(X, Y, num_iterations=1000, print_cost=False):
     return parameters
 
 
-# In[ ]:
+# In[36]:
 
 
 w3_unittest.test_nn_model(nn_model)
@@ -835,21 +835,21 @@ w3_unittest.test_nn_model(nn_model)
 # 
 # Now let's load a dataset to train the neural network.
 
-# In[ ]:
+# In[37]:
 
 
 df = pd.read_csv("data/toy_dataset.csv")
 
 
-# In[ ]:
+# In[38]:
 
 
 df.head()
 
 
-# Let's first turn the data into a numpy array to pass it to the our function.
+# Let's first turn the data into a numpy array that we can pass to our function.
 
-# In[ ]:
+# In[39]:
 
 
 X = np.array(df[['x1','x2']]).T
@@ -858,7 +858,7 @@ Y = np.array(df['y']).reshape(1,-1)
 
 # Run the next block to update the parameters dictionary with the fitted weights.
 
-# In[ ]:
+# In[40]:
 
 
 parameters = nn_model(X,Y, num_iterations = 5000, print_cost= True)
@@ -878,7 +878,7 @@ parameters = nn_model(X,Y, num_iterations = 5000, print_cost= True)
 # 
 # Now you will make the predictor function. It will input a parameters dictionary, a set of points X and output the set of predicted values. 
 
-# In[ ]:
+# In[41]:
 
 
 # GRADED FUNCTION: predict
@@ -893,13 +893,13 @@ def predict(X, parameters):
     return Z
 
 
-# In[ ]:
+# In[42]:
 
 
 y_hat = predict(X,parameters)
 
 
-# In[ ]:
+# In[43]:
 
 
 df['y_hat'] = y_hat[0]
@@ -907,7 +907,7 @@ df['y_hat'] = y_hat[0]
 
 # Now let's check some predicted values versus the original ones:
 
-# In[ ]:
+# In[44]:
 
 
 for i in range(10):

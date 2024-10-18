@@ -21,7 +21,7 @@
 #   - [ 2.3 - Compute the eigenvalues and eigenvectors](#2.3)
 #   - [ 2.4 Transform the centered data with PCA](#2.4)
 #     - [ Exercise 5](#ex05)
-#   - [ 2.5 Analizing the dimensionality reduction in 2 dimensions](#2.5)
+#   - [ 2.5 Analyzing the dimensionality reduction in 2 dimensions](#2.5)
 #   - [ 2.6 Reconstructing the images from the eigenvectors](#2.6)
 #   - [ 2.7 Explained variance](#2.7)
 
@@ -29,7 +29,7 @@
 # 
 # Run the following cell to load the packages you'll need.
 
-# In[ ]:
+# In[1]:
 
 
 import numpy as np
@@ -39,7 +39,7 @@ import scipy.sparse.linalg
 
 # Load the utils module and the unit tests defined for this notebook.
 
-# In[ ]:
+# In[2]:
 
 
 import utils
@@ -49,9 +49,9 @@ import w4_unittest
 # <a name='1'></a>
 # ## 1 - Application of Eigenvalues and Eigenvectors: Navigating Webpages
 # 
-# As you learned in the lectures, eigenvalues and eigenvectors play a very important role in what's called (discrete) dynamical systems. As you might recall, a **discrete dynamical system** descibes a system where, as time goes by, the state changes according to some process. When defining this dynamical systems you could represent all the possible states, such as sunny, rainy or cloudy, in a vector called the **state vector**. 
+# As you learned in the lectures, eigenvalues and eigenvectors play a very important role in what's called (discrete) dynamical systems. As you might recall, a **discrete dynamical system** describes a system where, as time goes by, the state changes according to some process. When defining this dynamical systems you could represent all the possible states, such as sunny, rainy or cloudy, in a vector called the **state vector**. 
 # 
-# Each discrete dynamical system can me represented by a transition matrix $P$, which indicates, given a particular state, what are the chances or probabilities of moving to each of the other states. This means the element $(2,1)$ of the matrix represents the probability of transitioning from state $1$ to state $2$.
+# Each discrete dynamical system can be represented by a transition matrix $P$, which indicates, given a particular state, what are the chances or probabilities of moving to each of the other states. This means the element $(2,1)$ of the matrix represents the probability of transitioning from state $1$ to state $2$.
 #  
 # Starting with an initial state $X_0$, the transition to the next state $X_1$ is a linear transformation defined by the transition matrix $P$: $X_1=PX_0$. That leads to $X_2=PX_1=P^2X_0$, $X_3=P^3X_0$, and so on. This implies that $X_t=PX_{t-1}$ for $t=0,1,2,3,\ldots$. In other words, we can keep multiplying by `P` to move from one state to the next.
 # 
@@ -76,24 +76,27 @@ import w4_unittest
 # 
 # Define vector $X_0$, so the browser starts navigation at page $4$ ($X_0$ is a vector with a single entry equal to one, and all other entries equal to zero). Apply the transformation once: $X_1=PX_0$ to find a vector of the probabilities that the browser is at each of four pages.
 
-# In[ ]:
+# In[3]:
 
 
-### START CODE HERE ###
-P = np.array([
+P = np.array([ 
     
-    [None, None, None, None, None],
-    [None, None, None, None, None],
-    [None, None, None, None, None],
-    [None, None, None, None, None],
-    [None, None, None, None, None]
+    [0, 0.75, 0.35, 0.25, 0.85], 
+    [0.15, 0, 0.35, 0.25, 0.05], 
+    [0.15, 0.15, 0, 0.25, 0.05], 
+    [0.15, 0.05, 0.05, 0, 0.05], 
+    [0.55, 0.05, 0.25, 0.25, 0]  
 ]) 
 
-X0 = np.array([[None], [None], [None], [None], [None]])
+X0 = np.array([[0],[0],[0],[1],[0]])
+
+### START CODE HERE ###
+
 # Multiply matrix P and X_0 (matrix multiplication).
-X1 = None
+X1 = np.dot(P, X0)
 
 ### END CODE HERE ###
+
 print(f'Sum of columns of P: {sum(P)}')
 print(f'X1:\n{X1}')
 
@@ -110,7 +113,7 @@ print(f'X1:\n{X1}')
 #  [0.25]]
 # ```
 
-# In[ ]:
+# In[4]:
 
 
 # Test your solution.
@@ -119,7 +122,7 @@ w4_unittest.test_matrix(P, X0, X1)
 
 # Applying the transformation $m$ times you can find a vector $X_m$ with the probabilities of the browser being at each of the pages after $m$ steps of navigation.
 
-# In[ ]:
+# In[5]:
 
 
 X = np.array([[0],[0],[0],[1],[0]])
@@ -135,7 +138,7 @@ print(X)
 
 # Begin by finding eigenvalues and eigenvectors for the previously defined matrix $P$:
 
-# In[ ]:
+# In[6]:
 
 
 eigenvals, eigenvecs = np.linalg.eig(P)
@@ -144,14 +147,14 @@ print(f'Eigenvalues of P:\n{eigenvals}\n\nEigenvectors of P\n{eigenvecs}')
 
 # As you can see, there is one eigenvalue with value $1$, and the other four have an aboslute values smaller than 1. It turns out this is a property of transition matrices. In fact, they have so many properties that these types of matrices fall into a category of matrices called **Markov matrix**. 
 # 
-# In general, a square matrix whose entries are all nonnegative, and the sum of the elements for each column is equal to $1$ is called a **Markov matrix**. Markov matrices have a handy property - they always have an eigenvalue equal to 1. As you learned in the lectues, in the case of transition matricies, the eigenvector associated with the eigenvalue $1$ will determine the state of the model in the long run , after evolving for a long period of time. 
+# In general, a square matrix whose entries are all nonnegative, and the sum of the elements for each column is equal to $1$ is called a **Markov matrix**. Markov matrices have a handy property - they always have an eigenvalue equal to 1. As you learned in the lectures, in the case of transition matrices, the eigenvector associated with the eigenvalue $1$ will determine the state of the model in the long run , after evolving for a long period of time. 
 # 
 # You can easily verify that the matrix $P$ you defined earlier is in fact a Markov matrix. 
 # So, if $m$ is large enough, the equation $X_m=PX_{m-1}$ can be rewritten as $X_m=PX_{m-1}=1\times X_m$. This means that predicting probabilities at time $m$, when $m$ is large you can simply just look for an eigenvector corresponding to the eigenvalue $1$. 
 # 
 # So, let's extract the eigenvector associated to the eigenvalue $1$. 
 
-# In[ ]:
+# In[7]:
 
 
 X_inf = eigenvecs[:,0]
@@ -164,13 +167,13 @@ print(f"Eigenvector corresponding to the eigenvalue 1:\n{X_inf[:,np.newaxis]}")
 # 
 # Just to verify the results, perform matrix multiplication $PX$ (multiply matrix `P` and vector `X_inf`) to check that the result will be equal to the vector $X$ (`X_inf`).
 
-# In[ ]:
+# In[8]:
 
 
 # This is organised as a function only for grading purposes.
 def check_eigenvector(P, X_inf):
     ### START CODE HERE ###
-    X_check = None
+    X_check = np.dot(P, X_inf) 
     ### END CODE HERE ###
     return X_check
 
@@ -182,29 +185,29 @@ print("Result of multiplication:" + str(X_check))
 print("Check that PX=X element by element:" + str(np.isclose(X_inf, X_check, rtol=1e-10)))
 
 
-# In[ ]:
+# In[9]:
 
 
 # Test your solution.
 w4_unittest.test_check_eigenvector(check_eigenvector)
 
 
-# This result gives the direction of the eigenvector, but as you can see the entries can't be interpreted as probabilities since you have negative values, and they don't add to 1. That's no problem. Remember that by convention `np.eig` returns eigenvectors with norm 1, but actually any vector on the same line is also an eigenvector to the eigenvaue 1, so yo can simply scale the vector so that all entries are positive and add to one.This will give you the long-run probabilities of landing on a given web page.
+# This result gives the direction of the eigenvector, but as you can see the entries can't be interpreted as probabilities since you have negative values, and they don't add to 1. That's no problem. Remember that by convention `np.eig` returns eigenvectors with norm 1, but actually any vector on the same line is also an eigenvector to the eigenvalue 1, so you can simply scale the vector so that all entries are positive and add to one.This will give you the long-run probabilities of landing on a given web page.
 
-# In[ ]:
+# In[10]:
 
 
 X_inf = X_inf/sum(X_inf)
-print(f"Long-run probabiltites of being at each webpage:\n{X_inf[:,np.newaxis]}")
+print(f"Long-run probabilities of being at each webpage:\n{X_inf[:,np.newaxis]}")
 
 
-# This means that after navigating the web for a long time, the probability that the browser is at page 1 is 0.394, of being on page 2 is 0.134, on page 3 0.0114, on page 4 0.085, and finally page 5 has a probability of 0.273.
+# This means that after navigating the web for a long time, the probability that the browser is at page 1 is 0.394, of being on page 2 is 0.134, on page 3 0.114, on page 4 0.085, and finally page 5 has a probability of 0.273.
 # 
 # Looking at this result you can conclude that page 1 is the most likely for the browser to be at, while page 4 is the least probable one.
 # 
 # If you compare the result of `X_inf` with the one you got after evolving the systems 20 times, they are the same up to the third decimal!
 # 
-# Here is a fun fact, this type of a model was the foundation of the PageRank algorithm, which is the basis of Google's very successful search engine.
+# Here is a fun fact: this type of a model was the foundation of the PageRank algorithm, which is the basis of Google's very successful search engine.
 
 # <a name='2'></a>
 # ## 2 - Application of Eigenvalues and Eigenvectors: Principal Component Analysis
@@ -215,13 +218,13 @@ print(f"Long-run probabiltites of being at each webpage:\n{X_inf[:,np.newaxis]}"
 # 
 # You will be using a portion of the [Cat and dog face](https://www.kaggle.com/datasets/alessiosanna/cat-dog-64x64-pixel/data) dataset from Kaggle. In particular, you will be using the cat images.
 # 
-# Remember that to apply PCA on any dataset you will begin by defining the covariance matrix. After that you will compute the eigenvalues and eigenvectors of this covariance matrix. Each of these eigenvectors will be a **principal component**. To perfrom the dimensionality reduction, you will take the $k$ principal components associated to the $k$ biggest eigenvalues, and transform the original data by projecting it onto the direction of these principal components (eigenvectors).
+# Remember that to apply PCA on any dataset you will begin by defining the covariance matrix. After that you will compute the eigenvalues and eigenvectors of this covariance matrix. Each of these eigenvectors will be a **principal component**. To perform the dimensionality reduction, you will take the $k$ principal components associated to the $k$ biggest eigenvalues, and transform the original data by projecting it onto the direction of these principal components (eigenvectors).
 # 
 # <a name='2.1'></a>
 # ### 2.1 - Load the data
-# Begin by loading the images and transforming them to black and withe using `load_images` function from utils. 
+# Begin by loading the images and transforming them to black and white using `load_images` function from utils. 
 
-# In[ ]:
+# In[11]:
 
 
 imgs = utils.load_images('./data/')
@@ -229,7 +232,7 @@ imgs = utils.load_images('./data/')
 
 # `imgs` should be a list, where each element of the list is an array (matrix). Let's check it out
 
-# In[ ]:
+# In[12]:
 
 
 height, width = imgs[0].shape
@@ -239,7 +242,7 @@ print(f'\nYour dataset has {len(imgs)} images of size {height}x{width} pixels\n'
 
 # Go ahead and plot one image to see what they look like. You can use the colormap 'gray' to plot in black and white. Feel free to look into as many pictures as you want.
 
-# In[ ]:
+# In[13]:
 
 
 plt.imshow(imgs[0], cmap='gray')
@@ -251,7 +254,7 @@ plt.imshow(imgs[0], cmap='gray')
 # 
 # The resulting array will have 55 rows, one for each image, and 64x64=4096 columns.
 
-# In[ ]:
+# In[14]:
 
 
 imgs_flatten = np.array([im.reshape(-1) for im in imgs])
@@ -296,12 +299,12 @@ print(f'imgs_flatten shape: {imgs_flatten.shape}')
 # 
 # For the following exercise you will implement a function that takes an array of shape $\mathrm{Num. observations}\times\mathrm{Num. variables}$, and returns the centered data. 
 # 
-# To perfrom the centering you will need three numpy functions. Click on their names if you want to read the official documentation for each in more detail:
+# To perform the centering you will need three numpy functions. Click on their names if you want to read the official documentation for each in more detail:
 # - [`np.mean`](https://numpy.org/doc/stable/reference/generated/numpy.mean.html): use this function to compute the mean of each variable, just remember to pass the correct `axis` argument.
 # - [`np.repeat`](https://numpy.org/doc/stable/reference/generated/numpy.repeat.html#numpy-repeat): This will allow for you to repeat the values of each $\mu_i$ . 
 # - [`np.reshape`](https://numpy.org/doc/stable/reference/generated/numpy.reshape.html#numpy-reshape): Use this function to reshape the repeated values into a matrix of shape the same size as your input data. To get the correct matrix after the reshape, remember to use the parameter `order='F'`.
 
-# In[ ]:
+# In[15]:
 
 
 # Graded cell
@@ -314,12 +317,12 @@ def center_data(Y):
         X (ndarray): centered data
     """
     ### START CODE HERE ###
-    mean_vector = None
-    mean_matrix = None
+    mean_vector = np.mean(Y, axis=0)
+    mean_matrix = np.reshape(mean_vector, (1, -1), order='F')
     # use np.reshape to reshape into a matrix with the same size as Y. Remember to use order='F'
-    mean_matrix = None
+    mean_matrix = mean_matrix
     
-    X = None
+    X = Y - mean_matrix
     ### END CODE HERE ###
     return X
 
@@ -328,14 +331,14 @@ def center_data(Y):
 # 
 # You can also print the image again and check that the face of the cat still looks the same. This is because the color scale is not fixed, but rather relative to the values of the pixels. 
 
-# In[ ]:
+# In[16]:
 
 
 X = center_data(imgs_flatten)
 plt.imshow(X[0].reshape(64,64), cmap='gray')
 
 
-# In[ ]:
+# In[17]:
 
 
 # Test your solution.
@@ -351,7 +354,7 @@ w4_unittest.test_center_data(center_data)
 # To perform the dot product you can simply use the function [`np.dot`](https://numpy.org/doc/stable/reference/generated/numpy.dot.html#numpy-dot).
 # 
 
-# In[ ]:
+# In[18]:
 
 
 def get_cov_matrix(X):
@@ -363,14 +366,14 @@ def get_cov_matrix(X):
     """
 
     ### START CODE HERE ###
-    cov_matrix = None
-    cov_matrix = None
+    cov_matrix = cov_matrix = (X.T @ X) / ((X.shape[0]) - 1)
+    cov_matrix = cov_matrix
     ### END CODE HERE ###
     
     return cov_matrix
 
 
-# In[ ]:
+# In[19]:
 
 
 cov_matrix = get_cov_matrix(X)
@@ -378,13 +381,13 @@ cov_matrix = get_cov_matrix(X)
 
 # Check the dimensions of the covariance matrix, it should be a square matrix with 4096 rows and columns. 
 
-# In[ ]:
+# In[20]:
 
 
 print(f'Covariance matrix shape: {cov_matrix.shape}')
 
 
-# In[ ]:
+# In[21]:
 
 
 # Test your solution.
@@ -393,7 +396,7 @@ w4_unittest.test_cov_matrix(get_cov_matrix)
 
 # <a name='2.3'></a>
 # ### 2.3 - Compute the eigenvalues and eigenvectors
-# Now you are all set compute the eigenvalues and eigenvectors of the covariance matrix.
+# Now you are all set to compute the eigenvalues and eigenvectors of the covariance matrix.
 # Due to performance constaints, you will not be using `np.linalg.eig`, but rather the very similar function [`scipy.sparse.linalg.eigsh`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html), which exploits the fact that $\mathrm{cov\_matrix}^T=\mathrm{cov\_matrix}$. Also, this function allows you to compute fewer number of eigenvalue-eigenvector pairs. 
 # 
 # It is outside of the scope of this course, but it can be shown that at most 55 eigenvalues of `cov_matrix` will be different from zero, which is the smallest dimension of the data matrix `X`. Thus, for computational efficiency, you will only be computing the first biggest 55 eigenvalues $\lambda_1, \ldots, \lambda_{55}$ and their corresponding eigenvectors $v_1, \ldots, v_{55}$. Feel free to try changing the `k` parameter in `scipy.sparse.linalg.eigsh` to something slightly bigger, to verify that all the new eigenvalues are zero. Try to keep it below 80, otherwise it will take too long to compute. 
@@ -401,7 +404,7 @@ w4_unittest.test_cov_matrix(get_cov_matrix)
 # The outputs of this scipy function are exactly the same as the ones from `np.linalg.eig`, except eigenvalues are ordered in decreasing order, so if you want to check out the largest eigenvalue you need to look into the last position of the vector. 
 # 
 
-# In[ ]:
+# In[22]:
 
 
 scipy.random.seed(7)
@@ -417,7 +420,7 @@ print(f'Ten largest eigenvalues: \n{eigenvals[-10:]}')
 # 
 # In order to get a consistent result with `np.linalg.eig`, you will invert the order of `eigenvals` and `eigenvecs`, so they are both ordered from largest to smallest eigenvalue.
 
-# In[ ]:
+# In[23]:
 
 
 eigenvals = eigenvals[::-1]
@@ -426,11 +429,11 @@ eigenvecs = eigenvecs[:,::-1]
 print(f'Ten largest eigenvalues: \n{eigenvals[:10]}')
 
 
-# Each of the eigenvectors you found will represent one principal components. The eigenvector associated with the largest eigenvalue will be the first principal component, the eigenvector associated with the second largest eigenvalue will be the second principal component, and so on. 
+# Each of the eigenvectors you found will represent one principal component. The eigenvector associated with the largest eigenvalue will be the first principal component, the eigenvector associated with the second largest eigenvalue will be the second principal component, and so on. 
 # 
 # It is pretty interesting to see that each principal component usually extracts some relevant features, or patterns from each image. In the next cell you will be visualizing the first sixteen components
 
-# In[ ]:
+# In[24]:
 
 
 fig, ax = plt.subplots(4,4, figsize=(20,20))
@@ -451,7 +454,7 @@ for n in range(4):
 # ### Exercise 5
 # In the next cell you will define a function that, given the data matrix, the eigenvector matrix (always sorted according to decreasing eignevalues), and the number of principal components to use, performs PCA.
 
-# In[ ]:
+# In[25]:
 
 
 # GRADED cell
@@ -467,23 +470,23 @@ def perform_PCA(X, eigenvecs, k):
         Xred
     """
     
-    ### START CODE HERE ### 
-    V = None
-    Xred = None
+    ### START CODE HERE ###
+    V = eigenvecs[:, :k]
+    Xred = X @ V 
     ### END CODE HERE ###
     return Xred
 
 
 # Try out this function, reducing your data to just two components
 
-# In[ ]:
+# In[26]:
 
 
 Xred2 = perform_PCA(X, eigenvecs,2)
 print(f'Xred2 shape: {Xred2.shape}')
 
 
-# In[ ]:
+# In[27]:
 
 
 # Test your solution.
@@ -491,13 +494,13 @@ w4_unittest.test_check_PCA(perform_PCA)
 
 
 # <a name='2.5'></a>
-# ### 2.5 Analizing the dimensionality reduction in 2 dimensions
+# ### 2.5 Analyzing the dimensionality reduction in 2 dimensions
 # 
 # One cool thing about reducing your data to just two components is that you can clearly visualize each cat image on the plane. Remember that each axis on this new plane represents a linear combination of the original variables, given by the direction of the two eigenvectors.
 # 
 # Use the function `plot_reduced_data` in `utils`to visualize the transformed data. Each blue dot represents an image, and the number represents the index of the image. This is so you can later recover which image is which, and gain some intuition.
 
-# In[ ]:
+# In[28]:
 
 
 utils.plot_reduced_data(Xred2)
@@ -506,7 +509,7 @@ utils.plot_reduced_data(Xred2)
 # If two points end up being close to each other in this representation, it is expected that the original pictures should be similar as well. 
 # Let's see if this is true. Consider for example the images 19, 21 and 41, which appear close to each other on the top center of the plot. Plot the corresponding cat images vertfy that they correspond to similar cats. 
 
-# In[ ]:
+# In[29]:
 
 
 fig, ax = plt.subplots(1,3, figsize=(15,5))
@@ -523,7 +526,7 @@ plt.suptitle('Similar cats')
 # 
 # Now, let's choose three images that seem far appart from each other, for example image 18, on the middle right, 41 on the top center and 51 on the lower left, and also plot the images
 
-# In[ ]:
+# In[30]:
 
 
 fig, ax = plt.subplots(1,3, figsize=(15,5))
@@ -546,17 +549,17 @@ plt.suptitle('Different cats')
 # 
 # When you compress the images using PCA, you are losing some information because you are using fewer variables to represent each observation. 
 # 
-# A natural question arrises: how many components do you need to get a good reconstruction of the image? Of course, what determines a "good" reconstruction might depend on the application.
+# A natural question arises: how many components do you need to get a good reconstruction of the image? Of course, what determines a "good" reconstruction might depend on the application.
 # 
 # A cool thing is that with a simple dot product you can transform the data after applying PCA back to the original space. This means that you can reconstruct the original image from the transformed space and check how distorted it looks based on the number of components you kept.
 # 
 # Suppose you obtained the matrix $X_{red}$ by keeping just two eigenvectors, then $X_{red} = \mathrm{X}\underbrace{\left[v_1\  v_2\right]}_{\boldsymbol{V_2}}$.
 # 
-# To transform the images back to the original variables space all you need to do is take the dot product between $X_{red}$ and $\boldsymbol{V_2}^T$. If you were to keep more components, say $k$, then simply replace $\boldsymbol{V_2}$ by $\boldsymbol{V_k} = \left[v_1\ v_2\ \ldots\ v_k\right]$. Notice that you can't make any combination you like, if you reduced the original data to just $k$ components, then the recovery must consider only the first $k$ eigenvectors, otherwise you will not be able to perfrom the matrix multiplication.
+# To transform the images back to the original variables space all you need to do is take the dot product between $X_{red}$ and $\boldsymbol{V_2}^T$. If you were to keep more components, say $k$, then simply replace $\boldsymbol{V_2}$ by $\boldsymbol{V_k} = \left[v_1\ v_2\ \ldots\ v_k\right]$. Notice that you can't make any combination you like, if you reduced the original data to just $k$ components, then the recovery must consider only the first $k$ eigenvectors, otherwise you will not be able to perform the matrix multiplication.
 # 
 # In the next cell you will define a function that given the transformed data $X_{red}$ and the matrix of eigenvectors returns the recovered image. 
 
-# In[ ]:
+# In[31]:
 
 
 def reconstruct_image(Xred, eigenvecs):
@@ -567,7 +570,7 @@ def reconstruct_image(Xred, eigenvecs):
 
 # Let's see what the reconstructed image looks like for different number of principal components
 
-# In[ ]:
+# In[32]:
 
 
 Xred1 = perform_PCA(X, eigenvecs,1) # reduce dimensions to 1 component
@@ -614,20 +617,20 @@ ax[1,2].set_title('reconstructed from 30 components', size=20)
 # Next, let's plot the explained variance of each of the 55 principal components, or eigenvectors. Don't worry about the fact that you only computed 55 eigenvalue-eigenvector pairs, recall that all the remaining eigenvalues of the covariance matrix are zero, and thus won't add enything to the explained variance.
 # 
 
-# In[ ]:
+# In[33]:
 
 
 explained_variance = eigenvals/sum(eigenvals)
 plt.plot(np.arange(1,56), explained_variance)
 
 
-# As you can see, the explaied variance falls pretty fast, and is very small after the 20th component.
+# As you can see, the explained variance falls pretty fast, and is very small after the 20th component.
 # 
 # A good way to decide on the number of components is to keep the ones that explain a very high percentage of the variance, for example 95%. 
 # 
-# For an easier visualization you can plot the cummulative explained variance. You can do this with the `np.cumsum` function. Let's see what this looks like
+# For an easier visualization you can plot the cumulative explained variance. You can do this with the `np.cumsum` function. Let's see what this looks like
 
-# In[ ]:
+# In[34]:
 
 
 explained_cum_variance = np.cumsum(explained_variance)
@@ -637,11 +640,11 @@ plt.axhline(y=0.95, color='r')
 
 # In red you can see the 95% line. This means that if you want to be able to explain 95% of the variance of your data you need to keep 35 principal components. 
 # 
-# Let's see how some of the original images look after the recostruction when using 35 principal components 
+# Let's see how some of the original images look after the reconstruction when using 35 principal components 
 # 
 # 
 
-# In[ ]:
+# In[35]:
 
 
 Xred35 = perform_PCA(X, eigenvecs, 35) # reduce dimensions to 35 components
@@ -669,10 +672,12 @@ ax[3,1].imshow(Xrec35[54].reshape(height, width), cmap='gray')
 ax[3,1].set_title('Reconstructed', size=20)
 
 
-# Most of this reconstructions look pretty good, and you were able to save a lot of memory by reducing the data from 4096 variables to just 35!
+# Most of these reconstructions look pretty good, and you were able to save a lot of memory by reducing the data from 4096 variables to just 35!
 # 
-# Now that you understand how the explained variance works you can play around with different amount of explaied variance and see how this affects the reconstructed images. You can elso explore how the reconstruction for different images looks like. 
+# Now that you understand how the explained variance works you can play around with different amount of explained variance and see how this affects the reconstructed images. You can also explore how the reconstruction for different images looks. 
 # 
-# As you can see, PCA is a really usefull tool for dimensionality reduction. In this assignment you saw how it works on images, but you can aplly the same principle to any tabular dataset. 
+# As you can see, PCA is a really useful tool for dimensionality reduction. In this assignment you saw how it works on images, but you can apply the same principle to any tabular dataset. 
 # 
 # Congratulations! You have finished the assignment in this week.
+
+# 

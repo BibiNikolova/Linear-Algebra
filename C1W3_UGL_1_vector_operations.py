@@ -22,7 +22,7 @@
 # 
 # Load the `NumPy` package to access its functions.
 
-# In[ ]:
+# In[1]:
 
 
 import numpy as np
@@ -41,7 +41,7 @@ import numpy as np
 # 
 # The following code will show the visualization.
 
-# In[ ]:
+# In[2]:
 
 
 import matplotlib.pyplot as plt
@@ -80,7 +80,7 @@ plot_vectors([v], [f"$v$"], ["black"])
 #           kv_1 & kv_2 & \ldots & kv_n 
 # \end{bmatrix}^T$ (element by element multiplication). If $k>0$, then $kv$ is a vector pointing in the same direction as $v$ and it is $k$ times as long as $v$. If $k=0$, then $kv$ is a zero vector. If $k<0$, vector $kv$ will be pointing in the opposite direction. In Python you can perform this operation with a `*` operator. Check out the example below:
 
-# In[ ]:
+# In[3]:
 
 
 plot_vectors([v, 2*v, -2*v], [f"$v$", f"$2v$", f"$-2v$"], ["black", "green", "blue"])
@@ -102,7 +102,7 @@ plot_vectors([v, 2*v, -2*v], [f"$v$", f"$2v$", f"$-2v$"], ["black", "green", "bl
 # 
 # In Python you can either use `+` operator or `NumPy` function `np.add()`. In the following code you can uncomment the line to check that the result will be the same:
 
-# In[ ]:
+# In[4]:
 
 
 v = np.array([[1],[3]])
@@ -117,7 +117,7 @@ plot_vectors([v, w, v + w], [f"$v$", f"$w$", f"$v + w$"], ["black", "black", "re
 # 
 # The norm of a vector $v$ is denoted as $\lvert v\rvert$. It is a nonnegative number that describes the extent of the vector in space (its length). The norm of a vector can be found using `NumPy` function `np.linalg.norm()`:
 
-# In[ ]:
+# In[5]:
 
 
 print("Norm of a vector v is", np.linalg.norm(v))
@@ -143,7 +143,7 @@ print("Norm of a vector v is", np.linalg.norm(v))
 # 
 # The simplest way to calculate dot product in Python is to take the sum of element by element multiplications. You can define the vectors $x$ and $y$ by listing their coordinates:
 
-# In[ ]:
+# In[6]:
 
 
 x = [1, -2, -5]
@@ -152,7 +152,7 @@ y = [4, 3, -1]
 
 # Next, let’s define a function `dot(x,y)` for the dot product calculation:
 
-# In[ ]:
+# In[7]:
 
 
 def dot(x, y):
@@ -166,7 +166,7 @@ def dot(x, y):
 # 
 # Now everything is ready to perform the dot product calculation calling the function `dot(x,y)`:
 
-# In[ ]:
+# In[8]:
 
 
 print("The dot product of x and y is", dot(x, y))
@@ -174,7 +174,7 @@ print("The dot product of x and y is", dot(x, y))
 
 # Dot product is very a commonly used operator, so `NumPy` linear algebra package provides quick way to calculate it using function `np.dot()`:
 
-# In[ ]:
+# In[9]:
 
 
 print("np.dot(x,y) function returns dot product of x and y:", np.dot(x, y)) 
@@ -182,7 +182,7 @@ print("np.dot(x,y) function returns dot product of x and y:", np.dot(x, y))
 
 # Note that you did not have to define vectors $x$ and $y$ as `NumPy` arrays, the function worked even with the lists. But there are alternative functions in Python, such as explicit operator `@` for the dot product, which can be applied only to the `NumPy` arrays. You can run the following cell to check that.
 
-# In[ ]:
+# In[10]:
 
 
 print("This line output is a dot product of x and y: ", np.array(x) @ np.array(y))
@@ -196,7 +196,7 @@ except TypeError as err:
 
 # As both `np.dot()` and `@` operators are commonly used, it is recommended to define vectors as `NumPy` arrays to avoid errors. Let's redefine vectors $x$ and $y$ as `NumPy` arrays to be safe:
 
-# In[ ]:
+# In[11]:
 
 
 x = np.array(x)
@@ -212,7 +212,7 @@ y = np.array(y)
 # 
 # Let's perform a simple experiment to compare their speed. Define new vectors $a$ and $b$ of the same size $1,000,000$:
 
-# In[ ]:
+# In[12]:
 
 
 a = np.random.rand(1000000)
@@ -221,7 +221,7 @@ b = np.random.rand(1000000)
 
 # Use `time.time()` function to evaluate amount of time (in seconds) required to calculate dot product using the function `dot(x,y)` which you defined above: 
 
-# In[ ]:
+# In[13]:
 
 
 import time
@@ -235,7 +235,7 @@ print ("Time for the loop version:" + str(1000*(toc-tic)) + " ms")
 
 # Now compare it with the speed of the vectorized versions:
 
-# In[ ]:
+# In[14]:
 
 
 tic = time.time()
@@ -245,7 +245,7 @@ print("Dot product: ", c)
 print ("Time for the vectorized version, np.dot() function: " + str(1000*(toc-tic)) + " ms")
 
 
-# In[ ]:
+# In[15]:
 
 
 tic = time.time()
@@ -270,7 +270,7 @@ print ("Time for the vectorized version, @ function: " + str(1000*(toc-tic)) + "
 # 
 # This provides an easy way to test the orthogonality between vectors. If $x$ and $y$ are orthogonal (the angle between vectors is $90^{\circ}$), then since $\cos(90^{\circ})=0$, it implies that **the dot product of any two orthogonal vectors must be $0$**. Let's test it, taking two vectors $i$ and $j$ we know are orthogonal:
 
-# In[ ]:
+# In[16]:
 
 
 i = np.array([1, 0, 0])
@@ -292,6 +292,12 @@ print("The dot product of i and j is", dot(i, j))
 # This example of vector similarity is given to link the material with the Machine Learning applications. There will be no actual implementation of it in this Course. Some examples of implementation can be found in the Natual Language Processing Specialization.
 # 
 # Well done, you have finished this lab!
+
+# In[ ]:
+
+
+
+
 
 # In[ ]:
 

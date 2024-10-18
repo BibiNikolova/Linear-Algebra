@@ -18,7 +18,7 @@
 # 
 # Run the following cell to load the package you'll need.
 
-# In[7]:
+# In[1]:
 
 
 import numpy as np
@@ -46,7 +46,7 @@ import cv2
 #           \tag{1}
 #           $$
 
-# In[8]:
+# In[2]:
 
 
 def T(v):
@@ -113,7 +113,7 @@ print("Original vector:\n", v, "\n\n Result of the transformation:\n", w)
 
 # You can change the values of $k$ or vectors $u$ and $v$ in the cell below, to check that this is true for some specific values.
 
-# In[9]:
+# In[3]:
 
 
 u = np.array([[1], [-2]])
@@ -189,7 +189,7 @@ print("T(u+v):\n", T(u+v), "\n T(u)+T(v):\n", T(u)+T(v))
 #           
 # Can you see now what should be the values of the elements $a_{i,j}$ of matrix $A$ to make the equalities $(5)$ correct? Find out the answer in the following code cell:
 
-# In[10]:
+# In[4]:
 
 
 def L(v):
@@ -229,7 +229,7 @@ print("Original vector:\n", v, "\n\n Result of the transformation:\n", w)
 
 # Horizontal scaling (factor $2$ in this example) can be defined considering transformation of a vector $e_1=\begin{bmatrix}1 \\ 0\end{bmatrix}$ into a vector $\begin{bmatrix}2 \\ 0\end{bmatrix}$ and leaving vector $e_2=\begin{bmatrix}0 \\ 1\end{bmatrix}$ without any changes. The following function `T_hscaling()` corresponds to the horizontal scaling (factor $2$) of a vector. The second function `transform_vectors()` applies defined transformation to a set of vectors (here two vectors).
 
-# In[11]:
+# In[5]:
 
 
 def T_hscaling(v):
@@ -256,7 +256,7 @@ print("Original vectors:\n e1= \n", e1, "\n e2=\n", e2,
 
 # You can get a visual understanding of the transformation, producing a plot which displays input vectors, and their transformations. Do not worry if the code in the following cell will not be clear - at this stage this is not important code to understand.
 
-# In[13]:
+# In[6]:
 
 
 import matplotlib.pyplot as plt
@@ -309,7 +309,7 @@ plot_transformation(T_hscaling, e1, e2)
 
 # Function `T_reflection_yaxis()` defined below corresponds to the reflection about y-axis:
 
-# In[ ]:
+# In[7]:
 
 
 def T_reflection_yaxis(v):
@@ -329,7 +329,7 @@ print("Original vectors:\n e1= \n", e1,"\n e2=\n", e2,
 
 # You can visualize this transformation:
 
-# In[ ]:
+# In[8]:
 
 
 plot_transformation(T_reflection_yaxis, e1, e2)
@@ -356,7 +356,7 @@ plot_transformation(T_reflection_yaxis, e1, e2)
 # 
 # Let's see a simple example of two transformations applied to a leaf image. For the image transformations you can use an `OpenCV` library. First, upload and show the image:
 
-# In[ ]:
+# In[9]:
 
 
 img = cv2.imread('images/leaf_original.png', 0)
@@ -369,7 +369,7 @@ plt.imshow(img)
 # 
 # Rotate the image:
 
-# In[ ]:
+# In[10]:
 
 
 image_rotated = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
@@ -379,7 +379,7 @@ plt.imshow(image_rotated)
 
 # Applying the shear you will get the following output:
 
-# In[ ]:
+# In[11]:
 
 
 rows,cols = image_rotated.shape
@@ -391,7 +391,7 @@ plt.imshow(image_rotated_sheared)
 
 # What if you will apply those two transformations in the opposite order? Do you think the result will be the same? Run the following code to check that:
 
-# In[ ]:
+# In[12]:
 
 
 image_sheared = cv2.warpPerspective(img, M, (int(cols), int(rows)))
@@ -401,7 +401,7 @@ plt.imshow(image_sheared_rotated)
 
 # Comparing last two images, you can clearly see that the outputs are different. This is because linear transformation can be defined as a matrix multiplication. Then, applying two transformations in a row, e.g. with matrices $A$ and $B$, you perform multiplications $B(Av)=(BA)v$, where $v$ is a vector. And remember, that generally you cannot change the order in the matrix multiplication (most of the time $BA\neq AB$). Let's check that! Define two matrices, corresponding to the rotation and shear transformations:
 
-# In[ ]:
+# In[13]:
 
 
 M_rotation_90_clockwise = np.array([[0, 1], [-1, 0]])
@@ -413,7 +413,7 @@ print("Matrix for the shear along x-axis:\n", M_shear_x)
 
 # Now check that the results of their multiplications `M_rotation_90_clockwise @ M_shear_x` and `M_shear_x @ M_rotation_90_clockwise` are different:
 
-# In[ ]:
+# In[14]:
 
 
 print("M_rotation_90_clockwise by M_shear_x:\n", M_rotation_90_clockwise @ M_shear_x)
